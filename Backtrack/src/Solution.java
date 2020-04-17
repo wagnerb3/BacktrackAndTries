@@ -53,6 +53,7 @@ public class Solution {
 		return "0";
 	}
 
+	//Part 1
 	// Checks to see if morsed word is in Dictionary
 	public static void handleSpacedLetters(String morsed) {
 		String result = findWord(morsed);
@@ -71,7 +72,9 @@ public class Solution {
 		w.removeIf(a -> !a.startsWith(s));
 		return w;
 	}
-
+	
+	//Part 2
+	//Uses Backtracking to find words
 	public static void findWords(String morse, String current) {
 		if (morse.equals("") && DICTIONARY.contains(current)) {
 			System.out.println(current);
