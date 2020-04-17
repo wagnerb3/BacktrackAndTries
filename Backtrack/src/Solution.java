@@ -81,7 +81,7 @@ public class Solution {
 			return;
 		}
 		if (morse.equals("") && DICTIONARY.contains(current)) {
-			System.out.println(current);
+			WORD.add(current);
 		}
 		for (String key : MORSE) {
 			if (morse.startsWith(key)) {
@@ -92,6 +92,9 @@ public class Solution {
 
 	public static void handleWord(String morsed) {
 		findWords(morsed, "");
+		for(String word : WORD) {
+			System.out.println(word);
+		}
 	}
 
 	public static void handleSpacedWords(String morsed) {
