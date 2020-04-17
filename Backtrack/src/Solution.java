@@ -8,54 +8,83 @@ import java.io.FileReader;
 import java.lang.String;
 
 public class Solution {
-	private static final HashMap<String, String> MORSE = (HashMap)readFile(HashMap.class);
-	private final static ArrayList<String> DICTIONARY = (ArrayList)readFile(ArrayList.class);
+	private static HashMap<String, String> MORSEMAP = new HashMap<>();
+	private static ArrayList<String> DICTIONARY = new ArrayList<>();
+	private static ArrayList<String> MORSE = new ArrayList<>();
+	private static int MAX = 6;
+	private static ArrayList<String> WORD = new ArrayList<>();
 
-	// Loads Morse Code from machine
-	public static Object readFile(Class<?> c) {
+	// Loads Morse Code and Dictionary from files
+	public static void loadFiles() {
 		String filename = "";
-		Object records = null;
 		try {
-			if (c == HashMap.class) {
-				records = new HashMap<String, String>();
-				filename = "C:/Users/got2b/Documents/College/College-Sophomore/CISC 320/320Eclipse/Backtrack/src/morse.txt";
-				BufferedReader reader = new BufferedReader(new FileReader(filename));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					String[] letters = line.split(" ");
-					((HashMap<String, String>) records).put(letters[1], letters[0]);
-				}
-				reader.close();
-			} else {
-				records = new ArrayList<String>();
-				filename = "C:/Users/got2b/Documents/College/College-Sophomore/CISC 320/320Eclipse/Backtrack/src/dictionary.txt";
-				BufferedReader reader = new BufferedReader(new FileReader(filename));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					((ArrayList<String>) records).add(line);
-				}
-				reader.close();
+			filename = "C:/Users/got2b/git/BacktrackAndTries/Backtrack/src/morse.txt";
+			BufferedReader reader = new BufferedReader(new FileReader(filename));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				String[] letters = line.split(" ");
+				MORSEMAP.put(letters[1], letters[0]);
+				MORSE.add(letters[1]);
 			}
+			reader.close();
+			filename = "C:/Users/got2b/git/BacktrackAndTries/Backtrack/src/dictionary.txt";
+			reader = new BufferedReader(new FileReader(filename));
+			while ((line = reader.readLine()) != null) {
+				DICTIONARY.add(line);
+			}
+			reader.close();
 		} catch (Exception e) {
 			System.err.format("Exception occurred trying to read '%s'.", filename);
 			e.printStackTrace();
 		}
-		return records;
 	}
 
-	public static void handleSpacedLetters(String morsed) {
+	// Finds word in Dictionary
+	// Returns String "0" if not found
+	public static String findWord(String morsed) {
 		String[] split = morsed.split(" ");
 		String word = "";
 		for (String letter : split) {
-			word += MORSE.get(letter);
+			word += MORSEMAP.get(letter);
 		}
 		if (DICTIONARY.contains(word)) {
-			System.out.println(word);
+			return word;
+		}
+		return "0";
+	}
+
+	// Checks to see if morsed word is in Dictionary
+	public static void handleSpacedLetters(String morsed) {
+		String result = findWord(morsed);
+		if (!result.equals("0")) {
+			System.out.println(result);
+		}
+	}
+
+	// Creates disposable copy of given ArrayList
+	public static ArrayList<String> copyDict(ArrayList<String> arr) {
+		return new ArrayList<>(arr);
+	}
+
+	// Returns ArrayList starting with given string
+	public static ArrayList<String> filter(ArrayList<String> w, String s) {
+		w.removeIf(a -> !a.startsWith(s));
+		return w;
+	}
+	
+	public static void findWords(String morse, String current) {
+		if (morse.equals("") && DICTIONARY.contains(current)) {
+			System.out.println(current);
+		}
+		for(String key : MORSE) {
+			if (morse.startsWith(key)) {
+				findWords(morse.substring(key.length()), current+MORSEMAP.get(key));
+			}
 		}
 	}
 
 	public static void handleWord(String morsed) {
-		System.out.println("INCOMPLETE PART 2");
+		findWords(morsed, "");
 	}
 
 	public static void handleSpacedWords(String morsed) {
@@ -67,6 +96,7 @@ public class Solution {
 	}
 
 	public static void main(String[] args) {
+		loadFiles();
 		// Get input from stdin
 		Scanner scanner = new Scanner(System.in);
 		String command = scanner.nextLine();
