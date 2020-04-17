@@ -76,6 +76,10 @@ public class Solution {
 	//Part 2
 	//Uses Backtracking to find words
 	public static void findWords(String morse, String current) {
+		ArrayList<String> possibilities = filter(new ArrayList<>(DICTIONARY), current);
+		if (possibilities.size() == 0) {
+			return;
+		}
 		if (morse.equals("") && DICTIONARY.contains(current)) {
 			System.out.println(current);
 		}
