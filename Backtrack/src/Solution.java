@@ -71,14 +71,14 @@ public class Solution {
 		w.removeIf(a -> !a.startsWith(s));
 		return w;
 	}
-	
+
 	public static void findWords(String morse, String current) {
 		if (morse.equals("") && DICTIONARY.contains(current)) {
 			System.out.println(current);
 		}
-		for(String key : MORSE) {
+		for (String key : MORSE) {
 			if (morse.startsWith(key)) {
-				findWords(morse.substring(key.length()), current+MORSEMAP.get(key));
+				findWords(morse.substring(key.length()), current + MORSEMAP.get(key));
 			}
 		}
 	}
