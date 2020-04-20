@@ -8,7 +8,7 @@ public class TrieNode {
 	HashMap<Character, TrieNode> children;
 	String word;
 
-	public void addWord(TrieNode root, String newWord) {
+	public static void addWord(TrieNode root, String newWord) {
 		TrieNode current = root;
 		for (char letter : newWord.toCharArray()) {
 			if (!current.children.containsKey(letter)) {
@@ -19,7 +19,7 @@ public class TrieNode {
 		current.word = newWord;
 	}
 
-	public boolean hasWord(TrieNode root, String goal) {
+	public static boolean hasWord(TrieNode root, String goal) {
 		TrieNode current = root;
 		for (char letter : goal.toCharArray()) {
 			if (current.children.containsKey(letter)) {
@@ -31,7 +31,7 @@ public class TrieNode {
 		return true;
 	}
 
-	public ArrayList<String> getAllWords(TrieNode root) {
+	public static ArrayList<String> getAllWords(TrieNode root) {
 		ArrayList<String> result = new ArrayList<>();
 		if (root.word != null) {
 			result.add(root.word);
@@ -44,7 +44,7 @@ public class TrieNode {
 		return result;
 	}
 
-	public ArrayList<String> autocomplete(TrieNode root, String start) {
+	public static ArrayList<String> autocomplete(TrieNode root, String start) {
 		TrieNode current = root;
 		for (char letter : start.toCharArray()) {
 			if (current.children.containsKey(letter)) {

@@ -2,7 +2,6 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -16,6 +15,7 @@ public class Solution {
 	private static ArrayList<String> MORSE = new ArrayList<>();
 	private static int MAX = 6;
 	private static ArrayList<String> WORD = new ArrayList<>();
+	private static TrieNode TRIE = new TrieNode();
 
 	// Loads Morse Code and Dictionary from files
 	public static void loadFiles() {
@@ -101,6 +101,10 @@ public class Solution {
 	}
 
 	public static void handleSpacedWords(String morsed) {
+		String[] words = morsed.split(" ");
+		for (String word : words) {
+			TrieNode.addWord(TRIE, word);
+		}
 		System.out.println("INCOMPLETE PART 3");
 	}
 
