@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class TrieNode {
-	HashMap<Character, TrieNode> children;
+	HashMap<Character, TrieNode> children = new HashMap<>();
 	String word;
 
 	public static void addWord(TrieNode root, String newWord) {

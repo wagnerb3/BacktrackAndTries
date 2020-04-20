@@ -21,7 +21,7 @@ public class Solution {
 	public static void loadFiles() {
 		String filename = "";
 		try {
-			filename = "C:/Users/got2b/git/BacktrackAndTries/Backtrack/src/morse.txt";
+			filename = "C:/Users/got2b/git/BacktrackAndTries/Backtrack/src/resources/morse.txt";
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -30,7 +30,7 @@ public class Solution {
 				MORSE.add(letters[1]);
 			}
 			reader.close();
-			filename = "C:/Users/got2b/git/BacktrackAndTries/Backtrack/src/dictionary.txt";
+			filename = "C:/Users/got2b/git/BacktrackAndTries/Backtrack/src/resources/dictionary.txt";
 			reader = new BufferedReader(new FileReader(filename));
 			while ((line = reader.readLine()) != null) {
 				DICTIONARY.add(line);
@@ -118,6 +118,7 @@ public class Solution {
 		Scanner scanner = new Scanner(System.in);
 		String command = scanner.nextLine();
 		// Parse the style and morsed code value
+		scanner.close();
 		String[] parts = command.split(":");
 		String style = parts[0].trim();
 		String morsed = parts[1].trim();
