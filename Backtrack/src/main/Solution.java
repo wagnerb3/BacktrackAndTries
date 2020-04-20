@@ -1,3 +1,4 @@
+package main;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -62,10 +63,10 @@ public class Solution {
 		}
 	}
 
-	// Creates disposable copy of given ArrayList
-	public static ArrayList<String> copyDict(ArrayList<String> arr) {
-		return new ArrayList<>(arr);
-	}
+	/*
+	 * // Creates disposable copy of given ArrayList public static ArrayList<String>
+	 * copyArr(ArrayList<String> arr) { return new ArrayList<>(arr); }
+	 */
 
 	// Returns ArrayList starting with given string
 	public static ArrayList<String> filter(ArrayList<String> w, String s) {
