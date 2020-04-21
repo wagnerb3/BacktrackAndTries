@@ -123,8 +123,28 @@ public class Solution {
 		}
 	}
 
-	//Part 3 - Uses a trie to print out
-	//spaced word possibilities
+	// Recursive methods that creates all
+	// possible phrases for sets of words
+	// Helper function for part 3
+	public static ArrayList<String> createPhrases(ArrayList<ArrayList<String>> arr) {
+		if (arr.size() == 1) {
+			return arr.get(0);
+		} else {
+			ArrayList<String> result = new ArrayList<>();
+			ArrayList<String> begin = arr.remove(0);
+			ArrayList<String> follow = arr.remove(0);
+			for (String b : begin) {
+				for (String a : follow) {
+					result.add(b + " " + a);
+				}
+			}
+			arr.add(0, result);
+			return createPhrases(arr);
+		}
+	}
+
+	// Part 3 - Uses a trie to print out
+	// spaced word possibilities
 	public static void handleSpacedWords(String morsed) {
 		ArrayList<ArrayList<String>> options = new ArrayList<>();
 		ArrayList<Integer> lens = new ArrayList<>();
@@ -132,25 +152,10 @@ public class Solution {
 		for (String word : words) {
 			ArrayList<String> parts = TrieNode.autocomplete(TRIE, word);
 			options.add(parts);
-			lens.add(parts.size());
 		}
-		int phraseNum = 1;
-		for (int len : lens) {
-			phraseNum *= len;
-		}
-		ArrayList<String> phrases = new ArrayList<>();
-		for (int i = 0; i < phraseNum; i++) {
-			phrases.add("");
-		}
-		for (ArrayList<String> arr : options) {
-			int split = arr.size();
-			int count = 0;
-			while(count < phraseNum) {
-				phrases.set(count, phrases.get(count)+arr.get(count%split)+" ");
-				count++;
-			}
-		}
-		for(String p : phrases) {
+		ArrayList<String> phrases = createPhrases(options);
+		Collections.sort(phrases);
+		for (String p : phrases) {
 			p = p.trim();
 			System.out.println(p);
 		}
