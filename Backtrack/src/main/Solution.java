@@ -23,7 +23,7 @@ public class Solution {
 	public static void loadFiles() {
 		String filename = "";
 		try {
-			filename = "C:/Users/got2b/git/BacktrackAndTries/Backtrack/src/resources/morse.txt";
+			filename = "src/resources/morse.txt";
 			BufferedReader reader = new BufferedReader(new FileReader(filename));
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -33,7 +33,7 @@ public class Solution {
 				MORSE.add(letters[1]);
 			}
 			reader.close();
-			filename = "C:/Users/got2b/git/BacktrackAndTries/Backtrack/src/resources/dictionary.txt";
+			filename = "src/resources/dictionary.txt";
 			reader = new BufferedReader(new FileReader(filename));
 			while ((line = reader.readLine()) != null) {
 				DICTIONARY.add(line);
@@ -147,10 +147,9 @@ public class Solution {
 	// spaced word possibilities
 	public static void handleSpacedWords(String morsed) {
 		ArrayList<ArrayList<String>> options = new ArrayList<>();
-		ArrayList<Integer> lens = new ArrayList<>();
 		String[] words = morsed.split(" ");
 		for (String word : words) {
-			ArrayList<String> parts = TrieNode.autocomplete(TRIE, word);
+			ArrayList<String> parts = TrieNode.autoComplete(TRIE, word);
 			options.add(parts);
 		}
 		ArrayList<String> phrases = createPhrases(options);
@@ -160,9 +159,38 @@ public class Solution {
 			System.out.println(p);
 		}
 	}
+	
+	public static ArrayList<ArrayList<String>> findSentence(String morse) {
+		ArrayList<ArrayList<String>> result = new ArrayList<>();
+		for (int i  = 0; i < morse.length(); i++) {
+			if (i == 17) {
+				System.out.println("Stop");
+			}
+			ArrayList<ArrayList<String>> temp = new ArrayList<>();
+			if (TrieNode.autoComplete(TRIE, morse.substring(0, morse.length() - i)).isEmpty()) {
+				continue;
+			}
+			else {
+				ArrayList<ArrayList<String>> temp2 = findSentence(morse.substring(morse.length() - i));
+				int len = morse.length() - i;
+				if (!temp2.isEmpty() || len == i) {
+					temp.add(TrieNode.autoComplete(TRIE, morse.substring(0, morse.length() - i)));
+					if (len == 0) {
+						temp.addAll(temp2);
+					}
+				}
+			}
+			if (!temp.isEmpty()) {
+				result.addAll(temp);
+			}
+		}
+		return result;
+	}
 
 	public static void handleSentence(String morsed) {
-		System.out.println("INCOMPLETE PART 4");
+		System.out.println("Incomplete Part 4");
+		ArrayList<ArrayList<String>> f = findSentence(morsed);
+		System.out.println("Incomplete Part 4");
 	}
 
 	public static void main(String[] args) {
@@ -231,7 +259,7 @@ public class Solution {
 			return result;
 		}
 
-		public static ArrayList<String> autocomplete(TrieNode root, String start) {
+		public static ArrayList<String> autoComplete(TrieNode root, String start) {
 			TrieNode current = root;
 			for (char letter : start.toCharArray()) {
 				if (current.children.containsKey(letter)) {
@@ -243,5 +271,4 @@ public class Solution {
 			return getAllWords(current);
 		}
 	}
-
 }
