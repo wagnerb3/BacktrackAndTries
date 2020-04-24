@@ -162,28 +162,28 @@ public class Solution {
 	
 	
 	
-	public static ArrayList<ArrayList<String>> findSentence(String morse) {
-		ArrayList<ArrayList<String>> result = new ArrayList<>();
+	public static ArrayList<ArrayList<ArrayList<String>>> findSentence(String morse) {
+		ArrayList<ArrayList<ArrayList<String>>> result = new ArrayList<>();
 		for (int i  = 0; i < morse.length(); i++) {
 			if (i == 17) {
 				System.out.println("Stop");
 			}
-			ArrayList<ArrayList<String>> temp = new ArrayList<>();
-			if (TrieNode.autoComplete(TRIE, morse.substring(0, morse.length() - i)).isEmpty()) {
+			ArrayList<ArrayList<ArrayList<String>>> temp3 = new ArrayList<>();
+			ArrayList<String> temp = TrieNode.autoComplete(TRIE, morse.substring(0, morse.length() - i));
+			if (temp3.isEmpty()) {
 				continue;
 			}
 			else {
-				ArrayList<ArrayList<String>> temp2 = findSentence(morse.substring(morse.length() - i));
-				int len = morse.length() - i;
-				if (!temp2.isEmpty() || len == i) {
-					temp.add(TrieNode.autoComplete(TRIE, morse.substring(0, morse.length() - i)));
-					if (len == 0) {
-						temp.addAll(temp2);
+				ArrayList<ArrayList<ArrayList<String>>> temp2 = findSentence(morse.substring(morse.length() - i));
+				if (!temp2.isEmpty() && morse.substring(morse.length() - i).length() - i == 0) {
+					for (ArrayList<ArrayList<String>> arr : temp2) {
+						arr.add(0, temp);
 					}
 				}
+				temp3 = temp2;
 			}
 			if (!temp.isEmpty()) {
-				result.addAll(temp);
+				result.addAll(temp3);
 			}
 		}
 		return result;
@@ -191,7 +191,7 @@ public class Solution {
 
 	public static void handleSentence(String morsed) {
 		System.out.println("Incomplete Part 4");
-		ArrayList<ArrayList<String>> f = findSentence(morsed);
+		ArrayList<ArrayList<ArrayList<String>>> f = findSentence(morsed);
 		System.out.println("Incomplete Part 4");
 	}
 
