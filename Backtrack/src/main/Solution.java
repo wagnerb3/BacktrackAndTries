@@ -69,11 +69,6 @@ public class Solution {
 		}
 	}
 
-	/*
-	 * // Creates disposable copy of given ArrayList public static ArrayList<String>
-	 * copyArr(ArrayList<String> arr) { return new ArrayList<>(arr); }
-	 */
-
 	// Returns ArrayList starting with given string
 	public static ArrayList<String> filter(ArrayList<String> w, String s) {
 		w.removeIf(a -> !a.startsWith(s));
@@ -159,40 +154,60 @@ public class Solution {
 			System.out.println(p);
 		}
 	}
+
 	
-	
-	
+	//Function for part 4
+	//Using backtracking, the function finds all possible
+	//combinations of words that can be made from the 
+	//morse equivalent
 	public static ArrayList<ArrayList<ArrayList<String>>> findSentence(String morse) {
 		ArrayList<ArrayList<ArrayList<String>>> result = new ArrayList<>();
-		for (int i  = 0; i < morse.length(); i++) {
-			if (i == 17) {
-				System.out.println("Stop");
-			}
-			ArrayList<ArrayList<ArrayList<String>>> temp3 = new ArrayList<>();
+		for (int i = 0; i < morse.length(); i++) {
 			ArrayList<String> temp = TrieNode.autoComplete(TRIE, morse.substring(0, morse.length() - i));
-			if (temp3.isEmpty()) {
+			if (temp.isEmpty()) {
 				continue;
-			}
-			else {
+			} else {
 				ArrayList<ArrayList<ArrayList<String>>> temp2 = findSentence(morse.substring(morse.length() - i));
-				if (!temp2.isEmpty() && morse.substring(morse.length() - i).length() - i == 0) {
-					for (ArrayList<ArrayList<String>> arr : temp2) {
-						arr.add(0, temp);
+				if (!temp2.isEmpty() || morse.substring(morse.length() - i).length() == 0) {
+					if (!temp2.isEmpty()) {
+						for (ArrayList<ArrayList<String>> arr : temp2) {
+							arr.add(0, temp);
+						}
+						result.addAll(temp2);
+					}
+					else {
+						ArrayList<ArrayList<String>> empt = new ArrayList<>();
+						empt.add(temp);
+						result.add(empt);
 					}
 				}
-				temp3 = temp2;
-			}
-			if (!temp.isEmpty()) {
-				result.addAll(temp3);
 			}
 		}
 		return result;
 	}
 
+	//Main Part 4 Function
+	//Calls find Sentence
 	public static void handleSentence(String morsed) {
-		System.out.println("Incomplete Part 4");
-		ArrayList<ArrayList<ArrayList<String>>> f = findSentence(morsed);
-		System.out.println("Incomplete Part 4");
+		ArrayList<ArrayList<ArrayList<String>>> sentences = findSentence(morsed);
+		int less = 0;
+		for (int i = 0; i < sentences.size(); i++) {
+			if(sentences.get(i).size() < sentences.get(less).size()) {
+				less = i;
+			}
+		}
+		int size = sentences.get(less).size();
+		ArrayList<String> phrases = new ArrayList<>();
+		for (ArrayList<ArrayList<String>> arr : sentences) {
+			if (arr.size() == size) {
+				phrases.addAll(createPhrases(arr));
+			}
+		}
+		Collections.sort(phrases);
+		for (String p : phrases) {
+			p = p.trim();
+			System.out.println(p);
+		}
 	}
 
 	public static void main(String[] args) {
