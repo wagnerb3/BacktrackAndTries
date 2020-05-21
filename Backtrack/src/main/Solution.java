@@ -1,10 +1,8 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,7 +13,6 @@ public class Solution {
 	private static HashMap<String, String> CHARMAP = new HashMap<>(); // Maps every morse code sequence to a letter
 	private static ArrayList<String> DICTIONARY = new ArrayList<>(); // Contains all the words in the dictionary file
 	private static ArrayList<String> MORSE = new ArrayList<>(); // Contains all the morse code sequences
-	private static final int MAX = 6; // Is the length of longest morse code sequence
 	private static ArrayList<String> WORD = new ArrayList<>(); // Holds possible words in backtracking part
 	private static TrieNode TRIE = new TrieNode(); // Is the Trie of the Dictionary file
 
