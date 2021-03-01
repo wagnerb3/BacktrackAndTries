@@ -157,6 +157,10 @@ public class Solution {
 	//Using backtracking, the function finds all possible
 	//combinations of words that can be made from the 
 	//morse equivalent
+	//Innermost ArrayLists are the possible words for a certain section of morse code
+		//Following ArrayLists are possible words that may follow
+	//Inner Middle ArrayLists are the all possible phrases that can be made with combinations of innermost ArrayLists
+	//Outer ArrayList contains all of the possible phrases ArrayLists
 	public static ArrayList<ArrayList<ArrayList<String>>> findSentence(String morse) {
 		ArrayList<ArrayList<ArrayList<String>>> result = new ArrayList<>();
 		for (int i = 0; i < morse.length(); i++) {
